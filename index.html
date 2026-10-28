@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark Angelo — Developer & Network Engineer</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Space Grotesk & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Space Grotesk"', 'monospace'],
+          },
+          colors: {
+            spiderBg: '#090a0f',
+            spiderDark: '#12151e',
+            spiderRed: '#ff1e42',
+            spiderCrimson: '#99001c',
+            spiderCyan: '#00f0ff',
+            glassBg: 'rgba(18, 21, 30, 0.75)',
+            glassBorder: 'rgba(255, 30, 66, 0.15)',
+          },
+          boxShadow: {
+            spiderGlow: '0 0 25px -5px rgba(255, 30, 66, 0.35)',
+            cyanGlow: '0 0 20px -5px rgba(0, 240, 255, 0.3)',
+            card: '0 10px 30px -5px rgba(0, 0, 0, 0.6)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #090a0f;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    /* Subtle Web Background Pattern */
+    .web-mesh-pattern {
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 30, 66, 0.05) 0%, transparent 70%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    /* Glassmorphism Card Style */
+    .glass-card {
+      background: rgba(16, 20, 31, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(255, 30, 66, 0.35);
+      box-shadow: 0 12px 35px -5px rgba(255, 30, 66, 0.15);
+    }
+
+    /* Folder Hover Effects */
+    .folder-item {
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .folder-item:hover {
+      transform: translateY(-5px) scale(1.05);
+    }
+
+    /* Analog Clock Hand */
+    .clock-hand {
+      transform-origin: 50% 100%;
+      transition: transform 0.05s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+    }
+
+    /* Glitch / Highlight Accent */
+    .spider-text-glow {
+      text-shadow: 0 0 12px rgba(255, 30, 66, 0.6);
+    }
+
+    /* Modal Styling */
+    .modal-backdrop {
+      background: rgba(5, 7, 12, 0.75);
+      backdrop-filter: blur(12px);
+    }
+    .modal-card {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(0.95) translateY(12px);
+      opacity: 0;
+    }
+    .modal-open .modal-card {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* Web Canvas Layer */
+    #web-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between web-mesh-pattern relative">
+
+  <!-- Interactive Spider Canvas Layer -->
+  <canvas id="web-canvas"></canvas>
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="w-full px-6 py-3.5 flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40">
+    <div class="flex items-center gap-3">
+      <!-- Spider Icon Logo -->
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-spiderCrimson to-spiderRed text-white flex items-center justify-center text-sm shadow-spiderGlow border border-red-500/30">
+        <i class="fa-solid fa-spider"></i>
+      </div>
+      <span class="font-extrabold tracking-wide text-white font-mono text-sm">MARK ANGELO</span>
+      <span class="hidden sm:inline text-slate-700">|</span>
+      <span class="hidden sm:inline text-slate-400 font-normal">Network Engineer & Web Developer</span>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[11px]">
+        <span class="w-2 h-2 rounded-full bg-spiderRed animate-pulse shadow-spiderGlow"></span>
+        <span class="text-slate-300 font-mono">SECTOR 02 // CAVITE</span>
+      </div>
+      <div id="live-header-time" class="font-mono text-xs font-bold text-slate-200 tracking-tight">
+        Wed, Oct 28, 11:20 AM
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN DESKTOP CONTENT -->
+  <main class="max-w-[1600px] mx-auto w-full px-4 sm:px-8 py-6 sm:py-10 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+    
+    <!-- LEFT BENTO GRID -->
+    <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+      
+      <!-- 1. Analog Clock Widget -->
+      <div class="glass-card rounded-3xl p-5 flex flex-col items-center justify-center relative group">
+        <div class="flex items-center justify-between w-full mb-3 px-1">
+          <span class="text-[10px] font-mono tracking-widest text-spiderRed font-bold uppercase">TIMEZONE</span>
+          <span class="text-[10px] text-slate-400 font-mono">PHT UTC+8</span>
+        </div>
+        
+        <div class="relative w-24 h-24 rounded-full flex items-center justify-center border border-slate-800 bg-slate-950/60 shadow-inner">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <span class="absolute top-1 text-[9px] font-mono text-slate-500">12</span>
+            <span class="absolute right-1.5 text-[9px] font-mono text-slate-500">3</span>
+            <span class="absolute bottom-1 text-[9px] font-mono text-slate-500">6</span>
+            <span class="absolute left-1.5 text-[9px] font-mono text-slate-500">9</span>
+          </div>
+          <div class="w-2 h-2 bg-spiderRed rounded-full z-20 shadow-spiderGlow"></div>
+          <div id="hour-hand" class="clock-hand absolute w-1 h-6 bg-slate-300 rounded-full bottom-1/2 z-10"></div>
+          <div id="minute-hand" class="clock-hand absolute w-0.5 h-9 bg-spiderCyan rounded-full bottom-1/2 z-10"></div>
+          <div id="second-hand" class="clock-hand absolute w-0.5 h-10 bg-spiderRed rounded-full bottom-1/2 z-10"></div>
+        </div>
+      </div>
+
+      <!-- 2. Dynamic Calendar Widget -->
+      <div class="glass-card rounded-3xl p-5 flex flex-col justify-between">
+        <div class="flex items-center justify-between border-b border-slate-800/80 pb-2 mb-2">
+          <span id="calendar-month-year" class="text-xs font-mono font-bold tracking-wider text-spiderCyan uppercase">OCTOBER</span>
+          <span id="calendar-day-name" class="text-xs font-mono font-bold text-spiderRed">WED</span>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-500 mb-1">
+          <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        </div>
+        <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center text-xs font-mono text-slate-300">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- 3. Music Synthwave Player Widget -->
+      <div class="col-span-2 glass-card rounded-3xl p-4 sm:p-5 flex items-center gap-4">
+        <!-- Track Art -->
+        <div class="w-20 h-20 rounded-2xl bg-slate-900 border border-spiderRed/40 flex flex-col justify-between p-3 text-white shadow-spiderGlow flex-shrink-0 relative overflow-hidden group">
+          <div class="absolute inset-0 bg-gradient-to-br from-spiderCrimson/60 via-slate-900 to-black"></div>
+          <div class="relative z-10 text-[9px] font-mono text-spiderCyan tracking-widest">SYNTH-LOFI</div>
+          <i class="fa-solid fa-compact-disc text-3xl text-spiderRed/80 absolute -right-2 -bottom-2 group-hover:rotate-180 transition duration-1000"></i>
+          <div class="relative z-10 text-xs font-extrabold tracking-tight">SPIDER-VERSE VIBE</div>
+        </div>
+        
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-0.5">
+            <h4 class="font-bold text-sm text-slate-100 truncate">Midnight Web Swing</h4>
+            <span id="audio-status-badge" class="text-[9px] font-mono bg-red-950/60 text-spiderRed border border-spiderRed/30 font-bold px-2 py-0.5 rounded-full">
+              PAUSED
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mb-2 truncate">Synthwave Audio Synth — Live Ambient</p>
+          
+          <!-- Controls -->
+          <div class="flex items-center justify-between mb-2">
+            <button id="prev-btn" class="text-slate-500 hover:text-slate-200 transition text-xs"><i class="fa-solid fa-backward-step"></i></button>
+            <button id="play-btn" class="w-8 h-8 rounded-full bg-spiderRed text-white flex items-center justify-center hover:scale-105 transition shadow-spiderGlow text-xs">
+              <i id="play-icon" class="fa-solid fa-play"></i>
+            </button>
+            <button id="next-btn" class="text-slate-500 hover:text-slate-200 transition text-xs"><i class="fa-solid fa-forward-step"></i></button>
+            
+            <!-- Audio Mute / Volume -->
+            <button id="volume-toggle" class="text-slate-400 hover:text-spiderCyan text-xs ml-2">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden cursor-pointer relative" id="audio-progress-container">
+            <div id="audio-progress-bar" class="bg-gradient-to-r from-spiderRed to-spiderCyan h-full w-1/4 rounded-full transition-all"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Weather Forecast Widget -->
+      <div class="col-span-2 glass-card rounded-3xl p-5">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h5 class="text-xs font-mono font-bold text-slate-200">METRO MANILA / REGION IV-A</h5>
+            <p class="text-[10px] text-slate-400">Clear Night • 29°C</p>
+          </div>
+          <i class="fa-solid fa-moon text-spiderCyan text-xl"></i>
+        </div>
+        
+        <div class="grid grid-cols-7 gap-1 text-center pt-2 border-t border-slate-800/80">
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] font-mono text-slate-500">Sun</span>
+            <i class="fa-solid fa-sun text-amber-400 text-xs"></i>
+            <span class="text-[10px] font-mono font-bold text-slate-300">31°</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] font-mono text-slate-500">Mon</span>
+            <i class="fa-solid fa-cloud-sun text-amber-400 text-xs"></i>
+            <span class="text-[10px] font-mono font-bold text-slate-300">30°</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] font-mono text-slate-500">Tue</span>
+            <i class="fa-solid fa-cloud text-slate-400 text-xs"></i>
+            <span class="text-[10px] font-mono font-bold text-slate-300">29°</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] font-mono text-slate-500">Wed</span>
+            <i class="fa-solid fa-bolt text-spiderRed text-xs"></i>
+            <span class="text-[10px] font-mono font-bold text-spiderRed">28°</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] font-mono text-slate-500">Thu</span>
+            <i class="fa-solid fa-cloud-sun text-amber-400 text-xs"></i>
+            <span class="text-[10px] font-mono font-bold text-slate-300">31°</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] font-mono text-slate-500">Fri</span>
+            <i class="fa-solid fa-sun text-amber-400 text-xs"></i>
+            <span class="text-[10px] font-mono font-bold text-slate-300">32°</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-[9px] font-mono text-slate-500">Sat</span>
+            <i class="fa-solid fa-cloud-moon text-spiderCyan text-xs"></i>
+            <span class="text-[10px] font-mono font-bold text-slate-300">29°</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CENTER HERO SECTION -->
+    <div class="lg:col-span-5 flex flex-col justify-center items-center text-center py-8 lg:py-20 px-2">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/40 border border-spiderRed/40 text-spiderRed text-xs font-mono mb-6 shadow-spiderGlow">
+        <i class="fa-solid fa-mask text-xs"></i> PROTOCOL: NET-DEV-01
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight mb-6 font-sans">
+        I'm Mark.<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-spiderRed via-red-400 to-spiderCyan spider-text-glow">
+          Aspiring Network Engineer
+        </span> & Developer.
+      </h1>
+      
+      <p class="text-slate-400 text-base sm:text-lg max-w-md font-normal leading-relaxed mb-8">
+        Building resilient cloud networks, securing digital infrastructure, and developing responsive software applications.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <button onclick="openModal('folder-1')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-spiderCrimson to-spiderRed text-white font-bold text-xs uppercase tracking-wider hover:brightness-125 transition shadow-spiderGlow flex items-center gap-2">
+          <i class="fa-solid fa-folder-open"></i> Explore Projects
+        </button>
+        <button onclick="openModal('folder-4')" class="px-6 py-3 rounded-xl bg-slate-900/90 text-slate-300 font-bold text-xs uppercase tracking-wider border border-slate-700 hover:border-spiderCyan hover:text-spiderCyan transition flex items-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> Initialize Contact
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT DESKTOP FOLDERS -->
+    <div class="lg:col-span-2 flex flex-row lg:flex-col items-center lg:items-end justify-center lg:justify-start gap-6 pt-4 lg:pt-0">
+      
+      <!-- Folder 1 -->
+      <div onclick="openModal('folder-1')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
+        <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+          <div class="absolute inset-0 bg-spiderRed/10 rounded-2xl blur-md group-hover:bg-spiderRed/20 transition"></div>
+          <svg class="w-full h-full text-spiderRed drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.5 21a2.5 2.5 0 002.5-2.5V8.5a2.5 2.5 0 00-2.5-2.5h-7.172a2 2 0 01-1.414-.586L9.5 4.086A2 2 0 008.086 3.5H4.5A2.5 2.5 0 002 6v12.5A2.5 2.5 0 004.5 21h15z" />
+          </svg>
+          <i class="fa-solid fa-code text-white text-base sm:text-lg absolute inset-0 m-auto translate-y-1"></i>
+        </div>
+        <span class="text-xs font-mono font-bold text-slate-300 mt-2 group-hover:text-spiderRed transition">Software Projects</span>
+      </div>
+
+      <!-- Folder 2 -->
+      <div onclick="openModal('folder-2')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
+        <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+          <div class="absolute inset-0 bg-spiderCyan/10 rounded-2xl blur-md group-hover:bg-spiderCyan/20 transition"></div>
+          <svg class="w-full h-full text-spiderCyan drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.5 21a2.5 2.5 0 002.5-2.5V8.5a2.5 2.5 0 00-2.5-2.5h-7.172a2 2 0 01-1.414-.586L9.5 4.086A2 2 0 008.086 3.5H4.5A2.5 2.5 0 002 6v12.5A2.5 2.5 0 004.5 21h15z" />
+          </svg>
+          <i class="fa-solid fa-network-wired text-slate-900 text-base sm:text-lg absolute inset-0 m-auto translate-y-1"></i>
+        </div>
+        <span class="text-xs font-mono font-bold text-slate-300 mt-2 group-hover:text-spiderCyan transition">Network & Cloud</span>
+      </div>
+
+      <!-- Folder 3 -->
+      <div onclick="openModal('folder-3')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
+        <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+          <div class="absolute inset-0 bg-spiderRed/10 rounded-2xl blur-md group-hover:bg-spiderRed/20 transition"></div>
+          <svg class="w-full h-full text-spiderRed drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.5 21a2.5 2.5 0 002.5-2.5V8.5a2.5 2.5 0 00-2.5-2.5h-7.172a2 2 0 01-1.414-.586L9.5 4.086A2 2 0 008.086 3.5H4.5A2.5 2.5 0 002 6v12.5A2.5 2.5 0 004.5 21h15z" />
+          </svg>
+          <i class="fa-solid fa-certificate text-white text-base sm:text-lg absolute inset-0 m-auto translate-y-1"></i>
+        </div>
+        <span class="text-xs font-mono font-bold text-slate-300 mt-2 group-hover:text-spiderRed transition">Certifications</span>
+      </div>
+
+      <!-- Folder 4 -->
+      <div onclick="openModal('folder-4')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
+        <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+          <div class="absolute inset-0 bg-spiderCyan/10 rounded-2xl blur-md group-hover:bg-spiderCyan/20 transition"></div>
+          <svg class="w-full h-full text-spiderCyan drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.5 21a2.5 2.5 0 002.5-2.5V8.5a2.5 2.5 0 00-2.5-2.5h-7.172a2 2 0 01-1.414-.586L9.5 4.086A2 2 0 008.086 3.5H4.5A2.5 2.5 0 002 6v12.5A2.5 2.5 0 004.5 21h15z" />
+          </svg>
+          <i class="fa-solid fa-address-card text-slate-900 text-base sm:text-lg absolute inset-0 m-auto translate-y-1"></i>
+        </div>
+        <span class="text-xs font-mono font-bold text-slate-300 mt-2 group-hover:text-spiderCyan transition">Links & Contact</span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="w-full py-4 text-center text-xs text-slate-500 font-mono border-t border-slate-900 bg-slate-950/60 relative z-10">
+    <p>DESIGNED BY MARK ANGELO // SPIDER-VERSE DESKTOP EDITION</p>
+  </footer>
+
+  <!-- MODAL WINDOW -->
+  <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div onclick="closeModal()" class="modal-backdrop absolute inset-0"></div>
+    
+    <div id="modal-card" class="modal-card relative bg-slate-900/90 backdrop-blur-xl w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-800 overflow-hidden z-10 my-auto max-h-[85vh] flex flex-col">
+      
+      <!-- OS Window Controls Bar -->
+      <div class="bg-slate-950 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div onclick="closeModal()" class="w-3 h-3 rounded-full bg-spiderRed hover:brightness-125 cursor-pointer"></div>
+          <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+          <div class="w-3 h-3 rounded-full bg-spiderCyan"></div>
+          <span id="modal-window-title" class="ml-3 text-xs font-mono font-bold text-slate-400">~/PORTFOLIO/SYSTEM</span>
+        </div>
+        <button onclick="closeModal()" class="text-slate-500 hover:text-white text-sm"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Content Area -->
+      <div id="modal-content" class="p-6 sm:p-8 overflow-y-auto space-y-6">
+        <!-- Injected via JS -->
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // --- CLOCK LOGIC ---
+    function updateClock() {
+      const now = new Date();
+      const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      document.getElementById('live-header-time').innerText = now.toLocaleString('en-US', options);
+
+      const sec = now.getSeconds();
+      const min = now.getMinutes();
+      const hr = now.getHours();
+
+      document.getElementById('second-hand').style.transform = `rotate(${(sec / 60) * 360}deg)`;
+      document.getElementById('minute-hand').style.transform = `rotate(${((min + sec / 60) / 60) * 360}deg)`;
+      document.getElementById('hour-hand').style.transform = `rotate(${(((hr % 12) + min / 60) / 12) * 360}deg)`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // --- CALENDAR LOGIC ---
+    function initCalendar() {
+      const now = new Date();
+      const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+      const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+      document.getElementById('calendar-month-year').innerText = monthNames[now.getMonth()];
+      document.getElementById('calendar-day-name').innerText = dayNames[now.getDay()];
+
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      const grid = document.getElementById('calendar-days-grid');
+      grid.innerHTML = '';
+
+      for (let i = 0; i < firstDay; i++) {
+        grid.appendChild(document.createElement('span'));
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement('span');
+        if (day === now.getDate()) {
+          cell.className = "w-6 h-6 rounded-full bg-spiderRed text-white font-bold flex items-center justify-center mx-auto shadow-spiderGlow";
+        } else {
+          cell.className = "w-6 h-6 flex items-center justify-center mx-auto hover:bg-slate-800 rounded-full";
+        }
+        cell.innerText = day;
+        grid.appendChild(cell);
+      }
+    }
+    initCalendar();
+
+    // --- SYNTHWAVE AUDIO SYNTHESIZER (Web Audio API) ---
+    let audioCtx = null;
+    let isPlaying = false;
+    let synthInterval = null;
+    let audioProgress = 25;
+
+    function createSynthNote() {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      const notes = [130.81, 146.83, 164.81, 196.00, 220.00, 261.63]; // C3, D3, E3, G3, A3, C4
+      const note = notes[Math.floor(Math.random() * notes.length)];
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.6);
+    }
+
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const statusBadge = document.getElementById('audio-status-badge');
+    const progressBar = document.getElementById('audio-progress-bar');
+
+    playBtn.addEventListener('click', () => {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        playIcon.className = "fa-solid fa-pause";
+        statusBadge.innerText = "PLAYING";
+        statusBadge.className = "text-[9px] font-mono bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 font-bold px-2 py-0.5 rounded-full";
+        
+        synthInterval = setInterval(() => {
+          createSynthNote();
+          audioProgress = (audioProgress + 0.5) % 100;
+          progressBar.style.width = audioProgress + '%';
+        }, 400);
+      } else {
+        playIcon.className = "fa-solid fa-play";
+        statusBadge.innerText = "PAUSED";
+        statusBadge.className = "text-[9px] font-mono bg-red-950/60 text-spiderRed border border-spiderRed/30 font-bold px-2 py-0.5 rounded-full";
+        clearInterval(synthInterval);
+      }
+    });
+
+    // --- INTERACTIVE SPIDER WEB CANVAS ---
+    const canvas = document.getElementById('web-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let mouse = { x: null, y: null };
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    // Particle nodes for subtle background web
+    const particles = Array.from({ length: 35 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+    }));
+
+    function animateWeb() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Move and draw particles
+      particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.fillStyle = 'rgba(255, 30, 66, 0.4)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Connect nearby particles with thread
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 140) {
+            ctx.strokeStyle = `rgba(255, 30, 66, ${0.15 * (1 - dist / 140)})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+
+        // Web thread targeting mouse
+        if (mouse.x && mouse.y) {
+          const mouseDist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+          if (mouseDist < 160) {
+            ctx.strokeStyle = `rgba(0, 240, 255, ${0.25 * (1 - mouseDist / 160)})`;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      requestAnimationFrame(animateWeb);
+    }
+    animateWeb();
+
+    // --- MODAL DATA & CONTROLS ---
+    const modalData = {
+      'folder-1': {
+        title: '~/PROJECTS/SOFTWARE',
+        heading: 'Software & Web Development',
+        tags: ['React', 'Node.js', 'Python', 'Tailwind CSS'],
+        content: `
+          <div class="space-y-4">
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
+              <h4 class="font-bold text-spiderRed text-sm mb-1">BusBookr Cloud Platform</h4>
+              <p class="text-xs text-slate-400 mb-2">Real-time bus ticketing & seat reservation portal with live route tracking.</p>
+              <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Full Stack</span>
+            </div>
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
+              <h4 class="font-bold text-spiderCyan text-sm mb-1">Grid Lock Tactical Game</h4>
+              <p class="text-xs text-slate-400 mb-2">2D Stealth stealth puzzle game engine with custom pathfinding logic.</p>
+              <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">C# / Unity</span>
+            </div>
+          </div>
+        `
+      },
+      'folder-2': {
+        title: '~/NETWORK/CLOUD-INFRA',
+        heading: 'Network Architecture & AWS Cloud',
+        tags: ['AWS VPC', 'Cisco Packet Tracer', 'Subnetting', 'Docker'],
+        content: `
+          <div class="space-y-4">
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
+              <h4 class="font-bold text-spiderCyan text-sm mb-1">Multi-AZ AWS Cloud VPC</h4>
+              <p class="text-xs text-slate-400">Public & Private subnets across multiple availability zones featuring secure NAT gateways and load balancing.</p>
+            </div>
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
+              <h4 class="font-bold text-slate-200 text-sm mb-1">Enterprise Router & Switch Topology</h4>
+              <p class="text-xs text-slate-400">Configured OSPF routing protocols, VLAN trunking, and firewall rulesets.</p>
+            </div>
+          </div>
+        `
+      },
+      'folder-3': {
+        title: '~/CREDENTIALS/CERTS',
+        heading: 'Certifications & Credentials',
+        tags: ['CCNA Prep', 'AWS Certified', 'B.S. Information Tech'],
+        content: `
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <i class="fa-solid fa-award text-spiderRed text-lg"></i>
+              <div>
+                <h5 class="text-xs font-bold text-slate-200">AWS Certified Cloud Practitioner</h5>
+                <p class="text-[10px] text-slate-400">Issued by Amazon Web Services</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <i class="fa-solid fa-network-wired text-spiderCyan text-lg"></i>
+              <div>
+                <h5 class="text-xs font-bold text-slate-200">Cisco CCNA Route & Switch</h5>
+                <p class="text-[10px] text-slate-400">Network Routing & Switching Certification Path</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      'folder-4': {
+        title: '~/CONTACT/TRANSMISSION',
+        heading: 'Initiate Contact & Socials',
+        tags: ['Email', 'GitHub', 'LinkedIn'],
+        content: `
+          <div class="grid grid-cols-2 gap-3">
+            <a href="mailto:mark.angelo@example.com" class="p-4 bg-slate-950 hover:bg-slate-800 rounded-2xl border border-slate-800 transition text-center group">
+              <i class="fa-solid fa-envelope text-spiderRed text-xl mb-2"></i>
+              <h5 class="text-xs font-bold text-slate-200 group-hover:text-spiderRed">Direct Email</h5>
+            </a>
+            <a href="https://github.com" target="_blank" class="p-4 bg-slate-950 hover:bg-slate-800 rounded-2xl border border-slate-800 transition text-center group">
+              <i class="fa-brands fa-github text-spiderCyan text-xl mb-2"></i>
+              <h5 class="text-xs font-bold text-slate-200 group-hover:text-spiderCyan">GitHub Repos</h5>
+            </a>
+          </div>
+        `
+      }
+    };
+
+    function openModal(id) {
+      const item = modalData[id];
+      if (!item) return;
+
+      document.getElementById('modal-window-title').innerText = item.title;
+      document.getElementById('modal-content').innerHTML = `
+        <h3 class="text-xl font-extrabold text-white mb-2">${item.heading}</h3>
+        <div class="flex flex-wrap gap-2 mb-4">
+          ${item.tags.map(t => `<span class="px-2.5 py-1 bg-slate-800 text-spiderRed font-mono text-[10px] rounded-lg border border-slate-700">${t}</span>`).join('')}
+        </div>
+        ${item.content}
+      `;
+
+      const container = document.getElementById('modal-container');
+      container.classList.remove('hidden');
+      setTimeout(() => container.classList.add('modal-open'), 10);
+    }
+
+    function closeModal() {
+      const container = document.getElementById('modal-container');
+      container.classList.remove('modal-open');
+      setTimeout(() => container.classList.add('hidden'), 200);
+    }
+  </script>
+</body>
+</html>
