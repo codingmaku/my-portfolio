@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maku's Portfolio</title>
+  <title>Mark Icban | Portfolio</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome Icons -->
@@ -116,13 +116,12 @@
 
   <header class="w-full px-6 py-3.5 flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40">
     <div class="flex items-center gap-3">
-
       <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-spiderCrimson to-spiderRed text-white flex items-center justify-center text-sm shadow-spiderGlow border border-red-500/30">
         <i class="fa-solid fa-spider"></i>
       </div>
       <span class="font-extrabold tracking-wide text-white font-mono text-sm">MARK ICBAN</span>
       <span class="hidden sm:inline text-slate-700">|</span>
-      <span class="hidden sm:inline text-slate-400 font-normal">Network Engineer & Web Developer</span>
+      <span class="hidden sm:inline text-slate-400 font-normal">Network Engineer & Front-End Developer</span>
     </div>
     
     <div class="flex items-center gap-4">
@@ -168,13 +167,10 @@
         <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-500 mb-1">
           <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
         </div>
-        <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center text-xs font-mono text-slate-300">
-
-        </div>
+        <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center text-xs font-mono text-slate-300"></div>
       </div>
 
       <div class="col-span-2 glass-card rounded-3xl p-4 sm:p-5 flex items-center gap-4">
-        <!-- Track Art -->
         <div class="w-20 h-20 rounded-2xl bg-slate-900 border border-spiderRed/40 flex flex-col justify-between p-3 text-white shadow-spiderGlow flex-shrink-0 relative overflow-hidden group">
           <div class="absolute inset-0 bg-gradient-to-br from-spiderCrimson/60 via-slate-900 to-black"></div>
           <div class="relative z-10 text-[9px] font-mono text-spiderCyan tracking-widest">SYNTH-LOFI</div>
@@ -212,7 +208,7 @@
       <div class="col-span-2 glass-card rounded-3xl p-5">
         <div class="flex items-center justify-between mb-3">
           <div>
-            <h5 class="text-xs font-mono font-bold text-slate-200">METRO MANILA / REGION IV-A</h5>
+            <h5 class="text-xs font-mono font-bold text-slate-200">CAVITE / REGION IV-A</h5>
             <p class="text-[10px] text-slate-400">Clear Night • 29°C</p>
           </div>
           <i class="fa-solid fa-moon text-spiderCyan text-xl"></i>
@@ -260,7 +256,6 @@
     </div>
 
     <div class="lg:col-span-5 flex flex-col justify-center items-center text-center py-8 lg:py-20 px-2">
-      <!-- Badge -->
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/40 border border-spiderRed/40 text-spiderRed text-xs font-mono mb-6 shadow-spiderGlow">
         <i class="fa-solid fa-mask text-xs"></i> PROTOCOL: NET-DEV-01
       </div>
@@ -286,7 +281,8 @@
       </div>
     </div>
 
-    <div class="lg:col-span-2 flex flex-row lg:flex-col items-center lg:items-end justify-center lg:justify-start gap-6 pt-4 lg:pt-0">
+    <!-- Right Sidebar Desktop Folders -->
+    <div class="lg:col-span-2 grid grid-cols-2 lg:grid-cols-1 gap-4 pt-4 lg:pt-0 justify-items-center">
       
       <div onclick="openModal('folder-1')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
         <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
@@ -308,6 +304,28 @@
           <i class="fa-solid fa-network-wired text-slate-900 text-base sm:text-lg absolute inset-0 m-auto translate-y-1"></i>
         </div>
         <span class="text-xs font-mono font-bold text-slate-300 mt-2 group-hover:text-spiderCyan transition">Network & Cloud</span>
+      </div>
+
+      <div onclick="openModal('folder-comp')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
+        <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+          <div class="absolute inset-0 bg-amber-500/10 rounded-2xl blur-md group-hover:bg-amber-500/20 transition"></div>
+          <svg class="w-full h-full text-amber-500 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.5 21a2.5 2.5 0 002.5-2.5V8.5a2.5 2.5 0 00-2.5-2.5h-7.172a2 2 0 01-1.414-.586L9.5 4.086A2 2 0 008.086 3.5H4.5A2.5 2.5 0 002 6v12.5A2.5 2.5 0 004.5 21h15z" />
+          </svg>
+          <i class="fa-solid fa-trophy text-slate-900 text-base sm:text-lg absolute inset-0 m-auto translate-y-1"></i>
+        </div>
+        <span class="text-xs font-mono font-bold text-slate-300 mt-2 group-hover:text-amber-400 transition">Competitions</span>
+      </div>
+
+      <div onclick="openModal('folder-hack')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
+        <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+          <div class="absolute inset-0 bg-spiderRed/10 rounded-2xl blur-md group-hover:bg-spiderRed/20 transition"></div>
+          <svg class="w-full h-full text-spiderRed drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.5 21a2.5 2.5 0 002.5-2.5V8.5a2.5 2.5 0 00-2.5-2.5h-7.172a2 2 0 01-1.414-.586L9.5 4.086A2 2 0 008.086 3.5H4.5A2.5 2.5 0 002 6v12.5A2.5 2.5 0 004.5 21h15z" />
+          </svg>
+          <i class="fa-solid fa-laptop-code text-white text-base sm:text-lg absolute inset-0 m-auto translate-y-1"></i>
+        </div>
+        <span class="text-xs font-mono font-bold text-slate-300 mt-2 group-hover:text-spiderRed transition">Hackathons</span>
       </div>
 
       <div onclick="openModal('folder-3')" class="folder-item cursor-pointer flex flex-col items-center text-center group w-24">
@@ -340,6 +358,7 @@
     <p>DESIGNED BY MARK ICBAN // SPIDER-VERSE DESKTOP EDITION</p>
   </footer>
 
+  <!-- Modal Component -->
   <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
     <div onclick="closeModal()" class="modal-backdrop absolute inset-0"></div>
     
@@ -355,15 +374,12 @@
         <button onclick="closeModal()" class="text-slate-500 hover:text-white text-sm"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <div id="modal-content" class="p-6 sm:p-8 overflow-y-auto space-y-6">
-
-      </div>
+      <div id="modal-content" class="p-6 sm:p-8 overflow-y-auto space-y-6"></div>
 
     </div>
   </div>
 
   <script>
-
     function updateClock() {
       const now = new Date();
       const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -420,7 +436,7 @@
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
 
-      const notes = [130.81, 146.83, 164.81, 196.00, 220.00, 261.63]; // C3, D3, E3, G3, A3, C4
+      const notes = [130.81, 146.83, 164.81, 196.00, 220.00, 261.63];
       const note = notes[Math.floor(Math.random() * notes.length)];
 
       osc.type = 'sawtooth';
@@ -538,18 +554,18 @@
       'folder-1': {
         title: '~/PROJECTS/SOFTWARE',
         heading: 'Software & Web Development',
-        tags: ['React', 'Node.js', 'Python', 'Tailwind CSS'],
+        tags: ['C# .NET', 'React', 'MongoDB', 'Unity', 'Tailwind'],
         content: `
           <div class="space-y-4">
-            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 hover:border-spiderRed/40 transition">
               <h4 class="font-bold text-spiderRed text-sm mb-1">BusBookr Cloud Platform</h4>
-              <p class="text-xs text-slate-400 mb-2">Real-time bus ticketing & seat reservation portal with live route tracking.</p>
-              <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Full Stack</span>
+              <p class="text-xs text-slate-400 mb-2">Cloud-based intelligent bus ticketing and fleet operations platform built with C#, WinForms, and MongoDB services.</p>
+              <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">C# / WinForms / MongoDB</span>
             </div>
-            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 hover:border-spiderCyan/40 transition">
               <h4 class="font-bold text-spiderCyan text-sm mb-1">Grid Lock Tactical Game</h4>
-              <p class="text-xs text-slate-400 mb-2">2D Stealth stealth puzzle game engine with custom pathfinding logic.</p>
-              <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">C# / Unity</span>
+              <p class="text-xs text-slate-400 mb-2">2D minimalist pixel art stealth and puzzle game developed in Unity featuring grid-based movement and custom terminal UIs.</p>
+              <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Unity 2D URP</span>
             </div>
           </div>
         `
@@ -557,38 +573,100 @@
       'folder-2': {
         title: '~/NETWORK/CLOUD-INFRA',
         heading: 'Network Architecture & AWS Cloud',
-        tags: ['AWS VPC', 'Cisco Packet Tracer', 'Subnetting', 'Docker'],
+        tags: ['AWS VPC', 'Wireshark', 'Packet Capture', 'A-Packets'],
         content: `
           <div class="space-y-4">
             <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
-              <h4 class="font-bold text-spiderCyan text-sm mb-1">Multi-AZ AWS Cloud VPC</h4>
-              <p class="text-xs text-slate-400">Public & Private subnets across multiple availability zones featuring secure NAT gateways and load balancing.</p>
+              <h4 class="font-bold text-spiderCyan text-sm mb-1">AWS Multi-AZ VPC Architecture</h4>
+              <p class="text-xs text-slate-400 mb-2">Designed cloud architecture diagrams containing public and private subnets, security groups, NAT gateways, and internet gateways.</p>
+              <span class="text-[10px] font-mono bg-slate-800 text-spiderCyan px-2 py-0.5 rounded">AWS Cloud</span>
             </div>
             <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
-              <h4 class="font-bold text-slate-200 text-sm mb-1">Enterprise Router & Switch Topology</h4>
-              <p class="text-xs text-slate-400">Configured OSPF routing protocols, VLAN trunking, and firewall rulesets.</p>
+              <h4 class="font-bold text-slate-200 text-sm mb-1">Packet Capture & IoT Security Analysis</h4>
+              <p class="text-xs text-slate-400 mb-2">Executed detailed network communication analysis using A-Packets & Wireshark to evaluate IoT traffic and WPA handshake captures.</p>
+              <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">A-Packets / Wireshark</span>
+            </div>
+          </div>
+        `
+      },
+      'folder-comp': {
+        title: '~/PROJECTS/COMPETITIONS',
+        heading: 'School Competitions',
+        tags: ['Local Level', 'Award Winner', '1st Place'],
+        content: `
+          <div class="space-y-4">
+            <div class="p-5 bg-slate-950 rounded-2xl border border-amber-500/30 relative overflow-hidden">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold px-2.5 py-0.5 rounded-full">
+                  🏆 1st Place Winner
+                </span>
+                <span class="text-[10px] font-mono text-slate-500">Local Level</span>
+              </div>
+              <h4 class="font-extrabold text-white text-base mb-1">Shutter's Best</h4>
+              <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+                Featured photographic and creative showcase submission earning 1st Place distinction at the school level.
+              </p>
+              <div class="border-t border-slate-800/80 pt-3 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Role: Visual Artist & Strategist</span>
+                <span class="text-spiderCyan">Awarded</span>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      'folder-hack': {
+        title: '~/PROJECTS/HACKATHONS',
+        heading: 'Hackathons & Challenges',
+        tags: ['GCash ImaGnation 2026', 'FinTech Innovation', 'Team Build'],
+        content: `
+          <div class="space-y-4">
+            <div class="p-5 bg-slate-950 rounded-2xl border border-spiderRed/40 relative overflow-hidden">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono bg-spiderRed/20 text-spiderRed border border-spiderRed/40 font-bold px-2.5 py-0.5 rounded-full">
+                  GCash Challenge 2026
+                </span>
+                <span class="text-[10px] font-mono text-slate-500">Team Pitch</span>
+              </div>
+              
+              <h4 class="font-extrabold text-white text-lg mb-1">G-Chain</h4>
+              <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+                Developed for the GCash ImaGnation 2026 Innovation Challenge. G-Chain provides an innovative financial solution designed to empower local user ecosystems and micro-transactions.
+              </p>
+
+              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-2 mb-4">
+                <div class="text-[11px] font-mono text-spiderCyan font-bold">Contribution & Highlights:</div>
+                <ul class="text-xs text-slate-300 space-y-1 list-disc list-inside">
+                  <li>Formulated team innovation pitch and functional architecture for GCash ecosystem.</li>
+                  <li>Designed intuitive front-end user experience tailored for local digital transactions.</li>
+                </ul>
+              </div>
+
+              <div class="border-t border-slate-800/80 pt-3 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Event: GCash ImaGnation 2026</span>
+                <span class="text-spiderRed font-bold">Project G-Chain</span>
+              </div>
             </div>
           </div>
         `
       },
       'folder-3': {
         title: '~/CREDENTIALS/CERTS',
-        heading: 'Certifications & Credentials',
-        tags: ['CCNA Prep', 'AWS Certified', 'B.S. Information Tech'],
+        heading: 'Certifications & Education',
+        tags: ['AWS Academy', 'Networking', 'STI College'],
         content: `
           <div class="space-y-3">
             <div class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
-              <i class="fa-solid fa-award text-spiderRed text-lg"></i>
+              <i class="fa-solid fa-graduation-cap text-spiderRed text-lg"></i>
               <div>
-                <h5 class="text-xs font-bold text-slate-200">AWS Certified Cloud Practitioner</h5>
-                <p class="text-[10px] text-slate-400">Issued by Amazon Web Services</p>
+                <h5 class="text-xs font-bold text-slate-200">B.S. Information Technology</h5>
+                <p class="text-[10px] text-slate-400">STI College Rosario (4th Year Senior)</p>
               </div>
             </div>
             <div class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
-              <i class="fa-solid fa-network-wired text-spiderCyan text-lg"></i>
+              <i class="fa-solid fa-cloud text-spiderCyan text-lg"></i>
               <div>
-                <h5 class="text-xs font-bold text-slate-200">Cisco CCNA Route & Switch</h5>
-                <p class="text-[10px] text-slate-400">Network Routing & Switching Certification Path</p>
+                <h5 class="text-xs font-bold text-slate-200">AWS Academy Graduate</h5>
+                <p class="text-[10px] text-slate-400">AWS Academy Cloud Foundations & Networking</p>
               </div>
             </div>
           </div>
